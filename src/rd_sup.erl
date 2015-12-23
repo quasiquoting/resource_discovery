@@ -43,7 +43,7 @@
 %% @end
 %%--------------------------------------------------------------------
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+  supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %%====================================================================
 %% Server functions
@@ -53,33 +53,28 @@ start_link() ->
 %% Func: init/1
 %% Returns: {ok,  {SupFlags,  [ChildSpec]}} |
 %%          ignore                          |
-%%          {error, Reason}   
+%%          {error, Reason}
 %%--------------------------------------------------------------------
 init([]) ->
-    RestartStrategy    = one_for_one,
-    MaxRestarts        = 1000,
-    MaxTimeBetRestarts = 3600,
-    SupFlags = {RestartStrategy, MaxRestarts, MaxTimeBetRestarts},
+  RestartStrategy    = one_for_one,
+  MaxRestarts        = 1000,
+  MaxTimeBetRestarts = 3600,
+  SupFlags = {RestartStrategy, MaxRestarts, MaxTimeBetRestarts},
 
-    ChildSpecs = 
-        [ 
-          {rd_core,
-           {rd_core, start_link, []},
-           permanent,
-           1000,
-           worker,
-           [rd_core]},
-          {rd_heartbeat,
-           {rd_heartbeat, start_link, []},
-           transient,
-           brutal_kill,
-           worker,
-           [rd_heartbeat]}
-         ],
+  ChildSpecs =
+    [
+     {rd_core,
+      {rd_core, start_link, []},
+      permanent,
+      1000,
+      worker,
+      [rd_core]},
+     {rd_heartbeat,
+      {rd_heartbeat, start_link, []},
+      transient,
+      brutal_kill,
+      worker,
+      [rd_heartbeat]}
+    ],
 
-    {ok, {SupFlags, ChildSpecs}}.
-
-
-
-
-
+  {ok, {SupFlags, ChildSpecs}}.

@@ -1,9 +1,6 @@
-REBAR=rebar
+REBAR=rebar3
 
-all: get-deps compile
-
-get-deps:
-	$(REBAR) get-deps
+all: compile
 
 compile:
 	$(REBAR) compile
@@ -14,13 +11,14 @@ clean:
 	rm -rf test/*.beam
 	rm -rf test/*.config
 
-test: all
+.PHONY: test
+test:
 	mkdir -p .eunit
 	cp -r etc .eunit/.
-	ERL_FLAGS="-sname rebar" $(REBAR) skip_deps=true eunit
+	ERL_FLAGS="-sname rebar@localhost" $(REBAR) eunit
 
 doc:
-	$(REBAR) doc skip_deps=true
+	$(REBAR) edoc
 
 APPS = kernel stdlib sasl erts ssl tools os_mon runtime_tools crypto inets \
 xmerl snmp public_key mnesia eunit syntax_tools compiler
