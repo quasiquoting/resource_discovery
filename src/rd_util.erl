@@ -77,11 +77,7 @@ poll_until(Fun, Iterations, PauseMS) ->
 %% @doc Get application data but provide a default.
 -spec get_env(atom(), term()) -> term().
 get_env(Key, Default) ->
-    case application:get_env(resource_discovery, Key) of
-	{ok, Value} -> {ok, Value};
-	undefined   -> {ok, Default}
-    end.
-	    
+  {ok, application:get_env(resource_discovery, Key, Default)}.
 
 
 %%%===================================================================
